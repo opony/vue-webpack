@@ -25,5 +25,9 @@ npm run test
 npm run lint
 ```
 
+### webpack build vue project
+```
+npm run vue-build
+```
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
