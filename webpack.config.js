@@ -1,0 +1,116 @@
+/* eslint-disable space-before-function-paren */
+/* eslint-disable semi */
+/* eslint-disable indent */
+// 引用path模組
+const path = require('path');
+const VueLoaderPlugin = require('vue-loader/lib/plugin');
+function resolve(dir) {
+    // console.log(path.join(__dirname, dir));
+    // return path.join(__dirname, '..', dir);
+    return path.join(__dirname, dir)
+}
+
+// const { VueLoaderPlugin } = require('vue-loader');
+module.exports = {
+    // 這個webpack打包的對象，這裡面加上剛剛建立的index.js
+    entry: {
+        index: './src/main.js'
+    },
+    output: {
+        // 這裡是打包後的檔案名稱
+        filename: '[name].[hash:8].js',
+        // 打包後的路徑，這裡使用path模組的resolve()取得絕對位置，也就是目前專案的根目錄
+        path: path.join(__dirname, './dist')
+    },
+    optimization: {
+        runtimeChunk: {
+            name: 'manifest'
+        },
+        splitChunks: {
+            cacheGroups: {
+                commons: {
+                    test: /[\\/]node_modules[\\/]/,
+                    name: 'vendor',
+                    chunks: 'all'
+                }
+            }
+        }
+    },
+    module: {
+        rules: [
+            {
+                test: /.vue$/,
+                loader: 'vue-loader'
+            },
+            {
+                test: /\.(vue|js|jsx)$/,
+                loader: 'eslint-loader',
+                exclude: /node_modules/,
+                enforce: 'pre'
+            },
+            {
+                test: /\.jsx$/,
+                loader: 'babel-loader'
+            },
+            {
+                test: /\.js$/,
+                loader: 'babel-loader',
+                exclude: /node_modules/,
+                options: {// 如果有这个设置则不用再添加.babelrc文件进行配置
+                    'babelrc': false, // 不采用.babelrc的配置
+                    'plugins': [
+                        'dynamic-import-webpack'
+                    ]
+                }
+            },
+            {
+                test: /\.(gif|jpg|jpeg|png|svg)$/,
+                use: [
+                    {
+                        loader: 'url-loader',
+                        options: {
+                            limit: 1024,
+                            name: 'resources/[path][name].[hash:8].[ext]'
+                        }
+                    }
+                ]
+            },
+            {
+                test: /\.css$/,
+                use: [{
+                    loader: 'vue-style-loader'
+                },
+                {
+                    loader: 'css-loader'
+                },
+                {
+                    loader: 'style-loader'
+                }]
+            },
+            {
+                test: /\.(scss|sass)$/,
+                use: [
+                    {
+                        loader: 'style-loader'
+                    },
+                    {
+                        loader: 'css-loader'
+                    },
+                    {
+                        loader: 'sass-loader'
+                    }
+                ]
+            }
+        ]
+    },
+    plugins: [
+        new VueLoaderPlugin()
+    ],
+    resolve: {
+        extensions: ['.js', '.vue', '.json'],
+        alias: {
+            'vue$': 'vue/dist/vue.esm.js',
+            '@': resolve('src')
+        }
+    }
+};
