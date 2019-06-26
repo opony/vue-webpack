@@ -6,7 +6,9 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+
+const isProduction = process.argv[process.argv.indexOf('--mode') + 1] === 'production';
 
 function resolve(dir) {
     // console.log(path.join(__dirname, dir));
@@ -16,7 +18,7 @@ function resolve(dir) {
 
 // const { VueLoaderPlugin } = require('vue-loader');
 module.exports = {
-    mode: 'development',
+    mode: 'production',
     // 這個webpack打包的對象，這裡面加上剛剛建立的index.js
     entry: {
         index: './src/main.js'
@@ -83,22 +85,16 @@ module.exports = {
             },
             {
                 test: /\.css$/,
-                use: [{
-                    loader: 'vue-style-loader'
-                },
-                {
-                    loader: 'style-loader'
-                },
-                {
-                    loader: 'css-loader'
-                }]
+                use: [
+                    !isProduction ? { loader: 'style-loader' } : MiniCssExtractPlugin.loader,
+                    {
+                        loader: 'css-loader'
+                    }]
             },
             {
                 test: /\.(scss|sass)$/,
                 use: [
-                    {
-                        loader: MiniCssExtractPlugin.loader
-                    },
+                    !isProduction ? { loader: 'style-loader' } : MiniCssExtractPlugin.loader,
                     {
                         loader: 'css-loader'
                     },
@@ -121,7 +117,7 @@ module.exports = {
             // 指定輸出位置
             // [name] 為上方進入點設定的 "名稱"
             filename: './css/[name].css',
-            chunkFilename: './css/[id].[hash].css'
+            chunkFilename: './css/[name].[hash].css'
         })
     ],
     resolve: {
