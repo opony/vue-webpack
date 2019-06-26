@@ -1,6 +1,8 @@
 <template>
+
   <div class="hello">
     <h1>{{ msg }}</h1>
+    <button class="button">button abc</button>
     <p>
       For a guide and recipes on how to configure / customize this project,<br>
       check out the
@@ -38,9 +40,10 @@ export default {
   }
 }
 </script>
-
+<style scoped src="../css/button.css"></style>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
+//@import "../css/button.css";
 h3 {
   margin: 40px 0 0;
 }

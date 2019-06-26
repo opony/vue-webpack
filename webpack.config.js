@@ -6,6 +6,8 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+
 function resolve(dir) {
     // console.log(path.join(__dirname, dir));
     // return path.join(__dirname, '..', dir);
@@ -85,17 +87,17 @@ module.exports = {
                     loader: 'vue-style-loader'
                 },
                 {
-                    loader: 'css-loader'
+                    loader: 'style-loader'
                 },
                 {
-                    loader: 'style-loader'
+                    loader: 'css-loader'
                 }]
             },
             {
                 test: /\.(scss|sass)$/,
                 use: [
                     {
-                        loader: 'style-loader'
+                        loader: MiniCssExtractPlugin.loader
                     },
                     {
                         loader: 'css-loader'
@@ -114,6 +116,12 @@ module.exports = {
             filename: 'index.html',
             template: './public/index.html',
             inject: true
+        }),
+        new MiniCssExtractPlugin({
+            // 指定輸出位置
+            // [name] 為上方進入點設定的 "名稱"
+            filename: './css/[name].css',
+            chunkFilename: './css/[id].[hash].css'
         })
     ],
     resolve: {
