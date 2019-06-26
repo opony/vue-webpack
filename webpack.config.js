@@ -3,7 +3,9 @@
 /* eslint-disable indent */
 // 引用path模組
 const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 function resolve(dir) {
     // console.log(path.join(__dirname, dir));
     // return path.join(__dirname, '..', dir);
@@ -104,7 +106,9 @@ module.exports = {
         ]
     },
     plugins: [
-        new VueLoaderPlugin()
+        new VueLoaderPlugin(),
+        new CleanWebpackPlugin(),
+        new HtmlWebpackPlugin()
     ],
     resolve: {
         extensions: ['.js', '.vue', '.json'],
