@@ -14,6 +14,7 @@ function resolve(dir) {
 
 // const { VueLoaderPlugin } = require('vue-loader');
 module.exports = {
+    mode: 'development',
     // 這個webpack打包的對象，這裡面加上剛剛建立的index.js
     entry: {
         index: './src/main.js'
@@ -21,6 +22,7 @@ module.exports = {
     output: {
         // 這裡是打包後的檔案名稱
         filename: '[name].[hash:8].js',
+        // publicPath: '/',
         // 打包後的路徑，這裡使用path模組的resolve()取得絕對位置，也就是目前專案的根目錄
         path: path.join(__dirname, './dist')
     },
@@ -72,7 +74,7 @@ module.exports = {
                         loader: 'url-loader',
                         options: {
                             limit: 1024,
-                            name: 'resources/[path][name].[hash:8].[ext]'
+                            name: 'resources/[name].[hash:8].[ext]'
                         }
                     }
                 ]
@@ -108,7 +110,11 @@ module.exports = {
     plugins: [
         new VueLoaderPlugin(),
         new CleanWebpackPlugin(),
-        new HtmlWebpackPlugin()
+        new HtmlWebpackPlugin({
+            filename: 'index.html',
+            template: './public/index.html',
+            inject: true
+        })
     ],
     resolve: {
         extensions: ['.js', '.vue', '.json'],
