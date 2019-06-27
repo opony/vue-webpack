@@ -29,6 +29,11 @@ module.exports = {
         // publicPath: '/',
         // 打包後的路徑，這裡使用path模組的resolve()取得絕對位置，也就是目前專案的根目錄
         path: path.join(__dirname, './dist')
+        // publicPath: '/dist/'
+    },
+    devServer: {
+        hot: true,
+        writeToDisk: true
     },
     optimization: {
         runtimeChunk: {
@@ -116,8 +121,8 @@ module.exports = {
         new MiniCssExtractPlugin({
             // 指定輸出位置
             // [name] 為上方進入點設定的 "名稱"
-            filename: './css/[name].css',
-            chunkFilename: './css/[name].[hash].css'
+            filename: 'css/[name].css',
+            chunkFilename: 'css/[name].[hash].css'
         })
     ],
     resolve: {

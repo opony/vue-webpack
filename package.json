@@ -7,7 +7,7 @@
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
     "vue-build": "webpack --config webpack.config.js --mode production",
-    "dev": "webpack-dev-server --progress --colors --mode development --open --hot"
+    "dev": "webpack-dev-server --progress --colors --mode production --open --hot "
   },
   "eslintConfig": {
     "root": true,
